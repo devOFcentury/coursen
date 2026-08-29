@@ -1,1 +1,51 @@
-<p>login works!</p>
+<div class="auth-box">
+    <h2>Login</h2>
+    <form novalidate (submit)="onSubmit($event)">
+        <div class="form-group">
+            <label class="form-label" for="email">Email:</label>
+            <input 
+                [formField]="loginForm.email"
+                type="text" 
+                id="email" 
+                class="auth-input"
+                placeholder="Enter your email"
+            >
+            @if (loginForm.email().invalid() && loginForm.email().touched()) {
+               @for (error of loginForm.email().errors(); track error) {
+                   <div class="error-message">{{ error.message }}</div>
+               }
+            }
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="password">Password:</label>
+            <input
+                [formField]="loginForm.password"
+                type="password" 
+                id="password"
+                class="auth-input"
+                placeholder="Enter your password"
+            >
+            @if (loginForm.password().invalid() && loginForm.password().touched()) {
+               @for (error of loginForm.password().errors(); track error) {
+                   <div class="error-message">{{ error.message }}</div>
+               }
+            }
+        </div>
+        <button 
+            class="auth-button" 
+            type="submit"
+            [disabled]="loginForm().submitting() || loginForm().invalid()"
+        >
+            @if (loginForm().submitting()) {
+                Logging in...
+            } @else {
+                Login
+            }
+        </button>
+    </form>
+
+    <div class="auth-footer">
+        <p>Don't have an account? <a routerLink="/auth/register">Register here</a></p>
+    </div>
+</div>
